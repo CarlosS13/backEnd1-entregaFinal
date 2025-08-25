@@ -1,0 +1,47 @@
+[
+  {
+    "id": 1,
+    "title": "Maquina Babyliss Supermotor",
+    "description": "Clipper de uso profesional",
+    "price": 250,
+    "thumbnail": "/img/test.jpg",
+    "code": "BabylissSupermotor",
+    "stock": 13,
+    "status": true,
+    "category": "maquinas",
+    "thumbnails": [
+      "/img/test1.jpg",
+      "/img/test2.jpg"
+    ]
+  },
+  {
+    "id": 2,
+    "title": "Tijera Jaguar Cocodrilo",
+    "description": "Tijera de uso profesional",
+    "price": 40,
+    "thumbnail": "/img/jaguarTest.jpg",
+    "code": "CocodrileJaguar",
+    "stock": 4,
+    "status": true,
+    "category": "tijeras",
+    "thumbnails": [
+      "/img/test1.jpg",
+      "/img/test2.jpg"
+    ]
+  },
+  {
+    "id": 3,
+    "title": "Navaja de barberia",
+    "description": "Navaja para afeitado de uso profesional",
+    "price": 50,
+    "thumbnail": "/img/navajaBarberia.jpg",
+    "code": "navaja",
+    "stock": 6,
+    "status": true,
+    "category": "accesorios",
+    "thumbnails": [
+      "/img/test1.jpg",
+      "/img/test2.jpg"
+    ]
+  }
+]
