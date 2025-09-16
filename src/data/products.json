@@ -43,5 +43,23 @@
       "/img/test1.jpg",
       "/img/test2.jpg"
     ]
+  },
+  {
+    "id": 4,
+    "title": "Maquina Whal MagicClip",
+    "description": "Clipper de uso profesional",
+    "price": 300
+  },
+  {
+    "id": 5,
+    "title": "Tijera Jaguar Filo Dulce",
+    "description": "Tijera de uso profesional",
+    "price": 40
+  },
+  {
+    "id": 6,
+    "title": "Secadora de pelo Babyliss",
+    "description": "Secadora de pelo profesional",
+    "price": 150
   }
 ]

@@ -9,12 +9,12 @@ class ProductManager {
         }
     }
 
-    addProduct(product) {
-        const products = this.getProducts();
+    async addProduct(productData) {
+        const products = await this.getProducts();
         const newId = products.length > 0 ? products[products.length - 1].id + 1 : 1;
-        const newProduct = { id: newId, ...product };
+        const newProduct = { id: newId, ...productData };
         products.push(newProduct);
-        fs.writeFileSync(this.path, JSON.stringify(products, null, 2));
+        await this.saveProducts(products);
         return newProduct;
     }
 
@@ -38,13 +38,14 @@ class ProductManager {
         return updatedProduct;
     }
 
-    deleteProduct(id) {
-        const products = this.getProducts();
-        const index = products.findIndex(product => product.id === id);
-        if (index === -1) return null;
-        products.splice(index, 1);
+    async deleteProduct(productId) {
+        let products = await this.getProducts();
+        products = products.filter(p => p.id !== parseInt(productId));
+        await this.saveProducts(products);
+    }
+
+    saveProducts(products) {
         fs.writeFileSync(this.path, JSON.stringify(products, null, 2));
-        return true;
     }
 }
 
