@@ -1,63 +1,51 @@
 const express = require('express');
-const ProductManager = require('../managers/ProductManager');
+const Product = require('../models/Product');
 const router = express.Router();
 
-const productManager = new ProductManager('./src/data/products.json');
+router.get('/', async (req, res) => {
+  try {
+    const { limit = 10, page = 1, sort, query } = req.query;
+    const filter = {};
 
-
-router.get('/', (req, res) => {
-    const products = productManager.getProducts();
-    res.json(products);
-});
-
-router.get('/:pid', (req, res) => {
-    const pid = parseInt(req.params.pid);
-    const product = productManager.getProductById(pid);
-    if (product) {
-        res.json(product);
-    } else {
-        res.status(404).json({ error: 'Producto no encontrado' });
+    if (query) {
+      if (query === 'available') filter.status = true;
+      else filter.category = query;
     }
-});
 
-router.post('/', (req, res) => {
-    const { title, description, price, thumbnail, code, stock, status, category, thumbnails } = req.body;
-    if (!title || !description || !price || !code || !stock || !category) {
-        return res.status(400).json({ error: 'Faltan campos obligatorios' });
+    let sortOption = {};
+    if (sort === 'asc') sortOption.price = 1;
+    else if (sort === 'desc') sortOption.price = -1;
+
+    const options = {
+      page: parseInt(page),
+      limit: parseInt(limit),
+      sort: sortOption
+    };
+
+    const mongoosePaginate = require('mongoose-paginate-v2');
+    if (!Product.schema.plugins.find(p => p.fn === mongoosePaginate)) {
+      Product.schema.plugin(mongoosePaginate);
     }
-    const newProduct = productManager.addProduct({
-        title,
-        description,
-        price,
-        thumbnail: thumbnail || '',
-        code,
-        stock,
-        status: status !== undefined ? status : true,
-        category,
-        thumbnails: thumbnails || []
+
+    const result = await Product.paginate(filter, options);
+
+    const buildLink = (p) => p ? `/api/products?limit=${limit}&page=${p}${sort ? `&sort=${sort}` : ''}${query ? `&query=${query}` : ''}` : null;
+
+    res.json({
+      status: 'success',
+      payload: result.docs,
+      totalPages: result.totalPages,
+      prevPage: result.prevPage,
+      nextPage: result.nextPage,
+      page: result.page,
+      hasPrevPage: result.hasPrevPage,
+      hasNextPage: result.hasNextPage,
+      prevLink: buildLink(result.prevPage),
+      nextLink: buildLink(result.nextPage)
     });
-    res.status(201).json(newProduct);
-});
-
-router.put('/:pid', (req, res) => {
-    const pid = parseInt(req.params.pid);
-    const updateFields = req.body;
-    const updated = productManager.updateProduct(pid, updateFields);
-    if (updated) {
-        res.json(updated);
-    } else {
-        res.status(404).json({ error: 'Producto no encontrado' });
-    }
-});
-
-router.delete('/:pid', (req, res) => {
-    const pid = parseInt(req.params.pid);
-    const deleted = productManager.deleteProduct(pid);
-    if (deleted) {
-        res.json({ mensaje: 'Producto eliminado' });
-    } else {
-        res.status(404).json({ error: 'Producto no encontrado' });
-    }
+  } catch (error) {
+    res.status(500).json({ status: 'error', error: error.message });
+  }
 });
 
 module.exports = router;

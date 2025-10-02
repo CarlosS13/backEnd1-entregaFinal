@@ -1,43 +1,93 @@
-# Primera Entrega - Coderhouse
+# Entrega final - Backend Ecommerce
 
-Este proyecto es la **primer entrega** del curso BackEnd1 en Coderhouse. Consiste en un servidor básico desarrollado con Node.js y Express, que permite gestionar productos y carritos de compras, almacenando la información en archivos JSON.
+Este proyecto es una API y aplicación web para la gestión de productos y carritos de compras, utilizando **MongoDB** como sistema de persistencia principal y **Express** como framework de servidor.
 
-## Tecnologías utilizadas
+## Características
 
-- Node.js
-- Express
-- JavaScript
-- Persistencia de datos en archivos JSON
+- Persistencia de productos y carritos en MongoDB.
+- Endpoints RESTful para productos y carritos.
+- Consultas de productos con filtros, paginación y ordenamiento.
+- Gestión profesional de carritos: agregar, eliminar, actualizar productos y cantidades.
+- Vistas dinámicas con Handlebars para productos, detalle de producto y carrito.
+- Relación entre carritos y productos usando referencias y `populate`.
 
-## ¿Cómo utilizarlo?
+## Instalación
 
-1. Instala las dependencias:
+1. Clona el repositorio:
+   ```
+   git clone https://github.com/TU_USUARIO/TU_REPOSITORIO.git
+   cd TU_REPOSITORIO
+   ```
+
+2. Instala las dependencias:
    ```
    npm install
    ```
 
-2. Inicia el servidor:
-   ```
-   node src/app.js
-   ```
+3. Configura tu conexión a MongoDB:
+   - Crea un archivo `.env` en la raíz del proyecto con la siguiente variable:
+     ```
+     MONGO_URI=mongodb://localhost:27017/ecommerce
+     ```
+   - Puedes usar tu propia URI de MongoDB Atlas si lo prefieres.
 
-3. El servidor estará disponible en el puerto 8080.
+## Ejecución
 
-4. Puedes interactuar con la API usando Postman o cualquier cliente HTTP, utilizando las siguientes rutas principales:
+Inicia el servidor con:
 
-   - **Productos:**  
-     - `GET /api/products`  
-     - `POST /api/products`  
-     - `GET /api/products/:pid`  
-     - `PUT /api/products/:pid`  
-     - `DELETE /api/products/:pid`
+```
+node src/app.js
+```
+o si tienes configurado un script en `package.json`:
+```
+npm start
+```
 
-   - **Carritos:**  
-     - `POST /api/carts`  
-     - `GET /api/carts/:cid`  
-     - `POST /api/carts/:cid/product/:pid`
+## Endpoints principales
 
-## Resumen
+### Productos
 
-Este proyecto permite crear, consultar, modificar y eliminar productos, así como gestionar carritos de compras, todo a través de una API
-Carlos Sanchez.
+- `GET /api/products`  
+  Consulta productos con filtros, paginación y ordenamiento.  
+  Query params: `limit`, `page`, `sort`, `query`.
+
+- `GET /api/products/:pid`  
+  Consulta detalle de un producto.
+
+### Carritos
+
+- `GET /api/carts/:cid`  
+  Consulta un carrito específico con productos populados.
+
+- `DELETE /api/carts/:cid/products/:pid`  
+  Elimina un producto del carrito.
+
+- `PUT /api/carts/:cid`  
+  Actualiza todos los productos del carrito.
+
+- `PUT /api/carts/:cid/products/:pid`  
+  Actualiza la cantidad de un producto en el carrito.
+
+- `DELETE /api/carts/:cid`  
+  Vacía el carrito.
+
+## Vistas
+
+- `/products`  
+  Lista de productos con paginación y botón para agregar al carrito.
+
+- `/products/:pid`  
+  Detalle de producto y opción para agregar al carrito.
+
+- `/carts/:cid`  
+  Vista de carrito con productos, opción para actualizar cantidad, eliminar y vaciar carrito.
+
+## Notas
+
+- La carpeta `node_modules` está ignorada por `.gitignore`.
+- La carpeta `public` incluye un archivo `.gitkeep` para ser rastreada por git.
+- Los datos de ejemplo pueden migrarse desde los archivos JSON a MongoDB si lo necesitas.
+
+---
+
+**Autor:** CarlosS13 
