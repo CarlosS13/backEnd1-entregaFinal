@@ -15,8 +15,8 @@ Este proyecto es una API y aplicación web para la gestión de productos y carri
 
 1. Clona el repositorio:
    ```
-   git clone https://github.com/TU_USUARIO/TU_REPOSITORIO.git
-   cd TU_REPOSITORIO
+   git clone https://github.com/CarlosS13/backEnd1-entregaFinal.git
+   cd backEnd1-entregaFinal
    ```
 
 2. Instala las dependencias:
